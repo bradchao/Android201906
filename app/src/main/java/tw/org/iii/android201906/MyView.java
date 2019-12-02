@@ -23,37 +23,34 @@ public class MyView extends View {
     private Bitmap bg, ball;
     private MainActivity activity;
     private Resources res;
+    private int viewW, viewH;
+    private boolean isInit;
+    private Paint paint;
 
     public MyView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         activity = (MainActivity)context;
         res = activity.getResources();
-
-        setBackgroundColor(Color.BLUE);
-
         setBackgroundResource(R.drawable.bg);
+    }
 
-//        setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Log.v("brad", "click");
-//            }
-//        });
+    private void init(){
+        isInit = !isInit;
+        viewW = getWidth(); viewH = getHeight();
+        ball = BitmapFactory.decodeResource(res, R.drawable.ball);
+
+        paint = new Paint();
+        paint.setColor(Color.YELLOW);
+        paint.setAntiAlias(true);
+        paint.setStrokeWidth(10);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        if (!isInit) init();
 
-        Paint paintBall = new Paint();
-        paintBall.setAlpha(127);
-        ball = BitmapFactory.decodeResource(res, R.drawable.ball);
         canvas.drawBitmap(ball, 0, 0, null);
-
-        Paint paint = new Paint();
-        paint.setColor(Color.YELLOW);
-        paint.setAntiAlias(true);
-        paint.setStrokeWidth(10);
 
         for (LinkedList<HashMap<String,Float>> line: lines){
             for (int i=1; i<line.size(); i++){
