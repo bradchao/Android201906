@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
         myView.clear();
     }
     public void undo(View view) {
+        myView.undo();
     }
     public void redo(View view) {
     }
