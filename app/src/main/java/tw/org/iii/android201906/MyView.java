@@ -17,6 +17,8 @@ import androidx.annotation.Nullable;
 
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MyView extends View {
     private LinkedList<LinkedList<HashMap<String,Float>>> lines = new LinkedList<>();
@@ -27,13 +29,16 @@ public class MyView extends View {
     private int viewW, viewH;
     private boolean isInit;
     private Paint paint;
-    private float ballW,ballH;
+    private float ballW,ballH, ballX, ballY, dx, dy;
+
+    private Timer timer;
 
     public MyView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         activity = (MainActivity)context;
         res = activity.getResources();
         setBackgroundResource(R.drawable.bg);
+        timer = new Timer();
     }
 
     private void init(){
@@ -41,7 +46,7 @@ public class MyView extends View {
         viewW = getWidth(); viewH = getHeight();
         ball = BitmapFactory.decodeResource(res, R.drawable.ball);
 
-        ballW = viewW / 12f; ballH = ballW;
+        ballW = viewW / 12f; ballH = ballW; dx = ballW / 12f; dy = ballH / 12f;
         Matrix matrix = new Matrix();
         matrix.postScale(ballW/ball.getWidth(), ballH/ball.getHeight());
         ball = Bitmap.createBitmap(ball, 0, 0, ball.getWidth(), ball.getHeight(), matrix, false);
@@ -50,6 +55,15 @@ public class MyView extends View {
         paint.setColor(Color.YELLOW);
         paint.setAntiAlias(true);
         paint.setStrokeWidth(10);
+        timer.schedule(new BallTask(), 1000, 32);
+    }
+
+    private class BallTask extends TimerTask {
+        @Override
+        public void run() {
+            ballX += dx; ballY += dy;
+            postInvalidate();
+        }
     }
 
     @Override
@@ -57,7 +71,7 @@ public class MyView extends View {
         super.onDraw(canvas);
         if (!isInit) init();
 
-        canvas.drawBitmap(ball, 0, 0, null);
+        canvas.drawBitmap(ball, ballX, ballY, null);
 
         for (LinkedList<HashMap<String,Float>> line: lines){
             for (int i=1; i<line.size(); i++){
@@ -67,9 +81,6 @@ public class MyView extends View {
                         p1.get("x"),p1.get("y"), paint);
             }
         }
-
-
-
     }
 
     @Override
