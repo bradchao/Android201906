@@ -67,4 +67,11 @@ public class MyView extends View {
         invalidate();   // repaint
         return true; //super.onTouchEvent(event);
     }
+
+    public void clear(){
+        lines.clear();
+        invalidate();
+    }
+
+
 }

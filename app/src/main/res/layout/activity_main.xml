@@ -35,6 +35,7 @@
             />
     </LinearLayout>
     <tw.org.iii.android201906.MyView
+        android:id="@+id/myView"
         android:layout_width="0dp"
         android:layout_weight="5"
         android:layout_height="match_parent"
