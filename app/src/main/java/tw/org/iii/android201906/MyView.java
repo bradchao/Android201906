@@ -61,6 +61,13 @@ public class MyView extends View {
     private class BallTask extends TimerTask {
         @Override
         public void run() {
+            if (ballX < 0 || ballX + ballW > viewW){
+                dx *= -1;
+            }
+            if (ballY < 0 || ballY + ballH > viewH){
+                dy *= -1;
+            }
+
             ballX += dx; ballY += dy;
             postInvalidate();
         }
