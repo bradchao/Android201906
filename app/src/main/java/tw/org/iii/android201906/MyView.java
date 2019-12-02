@@ -1,6 +1,9 @@
 package tw.org.iii.android201906;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -16,12 +19,20 @@ import java.util.LinkedList;
 
 public class MyView extends View {
     private LinkedList<LinkedList<HashMap<String,Float>>> lines = new LinkedList<>();
-
+    private LinkedList<LinkedList<HashMap<String,Float>>> recycler = new LinkedList<>();
+    private Bitmap bg;
+    private MainActivity activity;
+    private Resources res;
 
     public MyView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        activity = (MainActivity)context;
+        res = activity.getResources();
 
         setBackgroundColor(Color.BLUE);
+
+        setBackgroundResource(R.drawable.bg);
+
 //        setOnClickListener(new OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -33,6 +44,11 @@ public class MyView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+
+//        bg = BitmapFactory.decodeResource(res, R.drawable.bg);
+//        canvas.drawBitmap(bg, 0, 0, null);
+
+
         Paint paint = new Paint();
         paint.setColor(Color.YELLOW);
         paint.setAntiAlias(true);
@@ -58,6 +74,7 @@ public class MyView extends View {
         point.put("x", ex); point.put("y",ey);
 
         if (event.getAction() == MotionEvent.ACTION_DOWN){
+            recycler.clear();
             LinkedList<HashMap<String,Float>> line = new LinkedList<>();
             line.add(point);
             lines.add(line);
@@ -74,8 +91,17 @@ public class MyView extends View {
     }
 
     public void undo(){
-        lines.removeLast();
-        invalidate();
+        if (lines.size()>0) {
+            recycler.add(lines.removeLast());
+            invalidate();
+        }
+    }
+
+    public void redo(){
+        if (recycler.size()>0){
+            lines.add(recycler.removeLast());
+            invalidate();
+        }
     }
 
 
