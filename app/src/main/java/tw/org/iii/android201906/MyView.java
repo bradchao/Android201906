@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -26,6 +27,7 @@ public class MyView extends View {
     private int viewW, viewH;
     private boolean isInit;
     private Paint paint;
+    private float ballW,ballH;
 
     public MyView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -38,6 +40,11 @@ public class MyView extends View {
         isInit = !isInit;
         viewW = getWidth(); viewH = getHeight();
         ball = BitmapFactory.decodeResource(res, R.drawable.ball);
+
+        ballW = viewW / 12f; ballH = ballW;
+        Matrix matrix = new Matrix();
+        matrix.postScale(ballW/ball.getWidth(), ballH/ball.getHeight());
+        ball = Bitmap.createBitmap(ball, 0, 0, ball.getWidth(), ball.getHeight(), matrix, false);
 
         paint = new Paint();
         paint.setColor(Color.YELLOW);
