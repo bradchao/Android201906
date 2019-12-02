@@ -35,8 +35,16 @@ public class MyView extends View {
         super.onDraw(canvas);
         Paint paint = new Paint();
         paint.setColor(Color.YELLOW);
+        paint.setAntiAlias(true);
         paint.setStrokeWidth(10);
-        canvas.drawLine(0,0, 200,200, paint);
+
+        for (int i=1; i<line.size(); i++){
+            HashMap<String,Float> p0 = line.get(i-1);
+            HashMap<String,Float> p1 = line.get(i);
+            canvas.drawLine(p0.get("x"),p0.get("y"),
+                    p1.get("x"),p1.get("y"), paint);
+        }
+
 
     }
 
@@ -46,6 +54,8 @@ public class MyView extends View {
         HashMap<String,Float> point = new HashMap<>();
         point.put("x", ex); point.put("y",ey);
         line.add(point);
+
+        invalidate();   // repaint
         return true; //super.onTouchEvent(event);
     }
 }
