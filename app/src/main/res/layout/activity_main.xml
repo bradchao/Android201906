@@ -15,7 +15,24 @@
         android:orientation="vertical"
         android:background="#0f0"
         >
-
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Clear"
+            android:onClick="clear"
+            />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Undo"
+            android:onClick="undo"
+            />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Undo"
+            android:onClick="redo"
+            />
     </LinearLayout>
     <tw.org.iii.android201906.MyView
         android:layout_width="0dp"
