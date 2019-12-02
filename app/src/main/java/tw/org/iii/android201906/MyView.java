@@ -20,7 +20,7 @@ import java.util.LinkedList;
 public class MyView extends View {
     private LinkedList<LinkedList<HashMap<String,Float>>> lines = new LinkedList<>();
     private LinkedList<LinkedList<HashMap<String,Float>>> recycler = new LinkedList<>();
-    private Bitmap bg;
+    private Bitmap bg, ball;
     private MainActivity activity;
     private Resources res;
 
@@ -45,9 +45,10 @@ public class MyView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-//        bg = BitmapFactory.decodeResource(res, R.drawable.bg);
-//        canvas.drawBitmap(bg, 0, 0, null);
-
+        Paint paintBall = new Paint();
+        paintBall.setAlpha(127);
+        ball = BitmapFactory.decodeResource(res, R.drawable.ball);
+        canvas.drawBitmap(ball, 0, 0, null);
 
         Paint paint = new Paint();
         paint.setColor(Color.YELLOW);
