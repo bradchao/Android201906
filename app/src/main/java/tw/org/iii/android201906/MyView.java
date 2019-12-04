@@ -30,6 +30,7 @@ public class MyView extends View {
     private boolean isInit;
     private Paint paint;
     private float ballW,ballH;
+    private LinkedList<BallTask> balls;
 
     private Timer timer;
 
@@ -39,6 +40,7 @@ public class MyView extends View {
         res = activity.getResources();
         setBackgroundResource(R.drawable.bg);
         timer = new Timer();
+        balls = new LinkedList<>();
     }
 
     private void init(){
@@ -91,7 +93,9 @@ public class MyView extends View {
         super.onDraw(canvas);
         if (!isInit) init();
 
-        //canvas.drawBitmap(ball, ballX, ballY, null);
+        for (BallTask myball : balls) {
+            canvas.drawBitmap(ball, myball.getBallX(), myball.getBallY(), null);
+        }
 
 //        for (LinkedList<HashMap<String,Float>> line: lines){
 //            for (int i=1; i<line.size(); i++){
@@ -119,6 +123,12 @@ public class MyView extends View {
 //        }
 //        invalidate();   // repaint
 //        return true; //super.onTouchEvent(event);
+
+        float ex = event.getX() - ballW/2f, ey = event.getY() - ballH/2f;
+        BallTask ball = new BallTask(ex,ey);
+        balls.add(ball);
+        timer.schedule(ball, 0, 20);
+
         return false;
     }
 
