@@ -55,7 +55,14 @@ public class MyView extends View {
         paint.setColor(Color.YELLOW);
         paint.setAntiAlias(true);
         paint.setStrokeWidth(10);
-        timer.schedule(new BallTask(), 1000, 32);
+        timer.schedule(new ResfreshTask(), 0, 32);
+    }
+
+    private class ResfreshTask extends TimerTask {
+        @Override
+        public void run() {
+            postInvalidate();
+        }
     }
 
     private class BallTask extends TimerTask {
@@ -69,7 +76,6 @@ public class MyView extends View {
             }
 
             ballX += dx; ballY += dy;
-            postInvalidate();
         }
     }
 
@@ -80,32 +86,33 @@ public class MyView extends View {
 
         canvas.drawBitmap(ball, ballX, ballY, null);
 
-        for (LinkedList<HashMap<String,Float>> line: lines){
-            for (int i=1; i<line.size(); i++){
-                HashMap<String,Float> p0 = line.get(i-1);
-                HashMap<String,Float> p1 = line.get(i);
-                canvas.drawLine(p0.get("x"),p0.get("y"),
-                        p1.get("x"),p1.get("y"), paint);
-            }
-        }
+//        for (LinkedList<HashMap<String,Float>> line: lines){
+//            for (int i=1; i<line.size(); i++){
+//                HashMap<String,Float> p0 = line.get(i-1);
+//                HashMap<String,Float> p1 = line.get(i);
+//                canvas.drawLine(p0.get("x"),p0.get("y"),
+//                        p1.get("x"),p1.get("y"), paint);
+//            }
+//        }
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        float ex = event.getX(), ey = event.getY();
-        HashMap<String,Float> point = new HashMap<>();
-        point.put("x", ex); point.put("y",ey);
-
-        if (event.getAction() == MotionEvent.ACTION_DOWN){
-            recycler.clear();
-            LinkedList<HashMap<String,Float>> line = new LinkedList<>();
-            line.add(point);
-            lines.add(line);
-        }else {
-            lines.getLast().add(point);
-        }
-        invalidate();   // repaint
-        return true; //super.onTouchEvent(event);
+//        float ex = event.getX(), ey = event.getY();
+//        HashMap<String,Float> point = new HashMap<>();
+//        point.put("x", ex); point.put("y",ey);
+//
+//        if (event.getAction() == MotionEvent.ACTION_DOWN){
+//            recycler.clear();
+//            LinkedList<HashMap<String,Float>> line = new LinkedList<>();
+//            line.add(point);
+//            lines.add(line);
+//        }else {
+//            lines.getLast().add(point);
+//        }
+//        invalidate();   // repaint
+//        return true; //super.onTouchEvent(event);
+        return false;
     }
 
     public void clear(){
