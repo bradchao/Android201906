@@ -29,7 +29,7 @@ public class MyView extends View {
     private int viewW, viewH;
     private boolean isInit;
     private Paint paint;
-    private float ballW,ballH, ballX, ballY, dx, dy;
+    private float ballW,ballH;
 
     private Timer timer;
 
@@ -46,7 +46,7 @@ public class MyView extends View {
         viewW = getWidth(); viewH = getHeight();
         ball = BitmapFactory.decodeResource(res, R.drawable.ball);
 
-        ballW = viewW / 12f; ballH = ballW; dx = ballW / 12f; dy = ballH / 12f;
+        ballW = viewW / 12f; ballH = ballW;
         Matrix matrix = new Matrix();
         matrix.postScale(ballW/ball.getWidth(), ballH/ball.getHeight());
         ball = Bitmap.createBitmap(ball, 0, 0, ball.getWidth(), ball.getHeight(), matrix, false);
@@ -66,6 +66,13 @@ public class MyView extends View {
     }
 
     private class BallTask extends TimerTask {
+        private float ballX, ballY, dx, dy;
+        BallTask(float ballX, float ballY){
+            this.ballX = ballX; this.ballY = ballY;
+            dx = ballW / 12f; dy = ballH / 12f;
+        }
+        float getBallX(){return ballX;}
+        float getBallY(){return ballY;}
         @Override
         public void run() {
             if (ballX < 0 || ballX + ballW > viewW){
@@ -84,7 +91,7 @@ public class MyView extends View {
         super.onDraw(canvas);
         if (!isInit) init();
 
-        canvas.drawBitmap(ball, ballX, ballY, null);
+        //canvas.drawBitmap(ball, ballX, ballY, null);
 
 //        for (LinkedList<HashMap<String,Float>> line: lines){
 //            for (int i=1; i<line.size(); i++){
