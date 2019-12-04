@@ -33,6 +33,12 @@
             android:text="Undo"
             android:onClick="redo"
             />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Save"
+            android:onClick="save"
+            />
     </LinearLayout>
     <tw.org.iii.android201906.MyView
         android:id="@+id/myView"
